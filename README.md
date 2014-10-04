@@ -5,8 +5,8 @@ A word jumble solver.  Takes a series of letters as an input and returns a list 
 using only the letters in the input.
 
 The Fundamental Theorem of Arithmetic (http://en.wikipedia.org/wiki/Fundamental_theorem_of_arithmetic)
-says that all numbers have one and only one unique prime factorization.  That means that given any positive number, 
-there is only one set of prime numbers that when multiplied gives that number.  Which means that if you multiply 
+says that all numbers have one and only one unique prime factorization.  This means that given any positive number, 
+there is only one set of prime numbers that when multiplied gives that number and so if you multiply 
 a set of prime numbers, you will get a number that you cannot get by multiplying any other set of prime numbers.  So 
 if we represent the alphabet with the first 26 prime numbers, multiplying each letter in the string together will 
 give us a hash that is guaranteed to be unique to that set of letters. 
