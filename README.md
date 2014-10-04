@@ -8,8 +8,8 @@ The Fundamental Theorem of Arithmetic (http://en.wikipedia.org/wiki/Fundamental_
 says that all numbers have one and only one unique prime factorization.  That means that given any positive number, 
 there is only one set of prime numbers that when multiplied gives that number.  Which means that if you multiply 
 a set of prime numbers, you will get a number that you cannot get by multiplying any other set of prime numbers.  So 
-if we represent the alphabet with the first 26 prime numbers,multiplying each letter in a string will give us a 
-hash that is guaranteed to be unique to that set of letters. 
+if we represent the alphabet with the first 26 prime numbers, multiplying each letter in the string together will 
+give us a hash that is guaranteed to be unique to that set of letters. 
 
 The beauty of this system is that if we run into a string that uses a subset of our string's letters, then our hash must 
 be a multiple of its hash. For example, the hash of "dog" must be the hash of "do" times the hash of "g".  That's how we 
