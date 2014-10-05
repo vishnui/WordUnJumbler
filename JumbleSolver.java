@@ -51,11 +51,12 @@ public class JumbleSolver {
 
 	private BufferedWriter hashFile;
 	private BigInteger[] primes = { BigInteger.valueOf(2), BigInteger.valueOf(3), BigInteger.valueOf(5), 
-			BigInteger.valueOf(7), BigInteger.valueOf(11), BigInteger.valueOf(13), BigInteger.valueOf(17), BigInteger.valueOf(19), 
-			BigInteger.valueOf(23), BigInteger.valueOf(29), BigInteger.valueOf(31), BigInteger.valueOf(37), BigInteger.valueOf(41),
-			BigInteger.valueOf(43), BigInteger.valueOf(47), BigInteger.valueOf(53), BigInteger.valueOf(59), 
-			BigInteger.valueOf(61), BigInteger.valueOf(67), BigInteger.valueOf(71), BigInteger.valueOf(73), 
-			BigInteger.valueOf(79), BigInteger.valueOf(83), BigInteger.valueOf(89), BigInteger.valueOf(97), BigInteger.valueOf(101) };
+			BigInteger.valueOf(7), BigInteger.valueOf(11), BigInteger.valueOf(13), BigInteger.valueOf(17), 
+			BigInteger.valueOf(19), BigInteger.valueOf(23), BigInteger.valueOf(29), BigInteger.valueOf(31), 
+			BigInteger.valueOf(37), BigInteger.valueOf(41),	BigInteger.valueOf(43), BigInteger.valueOf(47), 
+			BigInteger.valueOf(53), BigInteger.valueOf(59), BigInteger.valueOf(61), BigInteger.valueOf(67), 
+			BigInteger.valueOf(71), BigInteger.valueOf(73), BigInteger.valueOf(79), BigInteger.valueOf(83), 
+			BigInteger.valueOf(89), BigInteger.valueOf(97), BigInteger.valueOf(101) };
 	
 	private static BigInteger negativeOne = BigInteger.valueOf(-1);
 	private static final String emptyToExit = "TYPE EMPTY INPUT TO EXIT." ;
@@ -226,9 +227,10 @@ public class JumbleSolver {
 			// letters in the alphabet.  
 			if (letter < 0 || letter > 25)
 				return negativeOne;
-			// Hyphenated words are apparently
-			// actually spelled in dictionaries without the
-			// hyphen so we don't need to worry about that
+			// Hyphenated word(s)/phrase(s) are actually
+			// spelled in dictionaries or aren't real words
+			// without the hyphen.  Not sure which one, but
+			// either way, we don't need to worry about that.
 			hash = hash.multiply(primes[letter]) ;
 		}
 		return hash;
