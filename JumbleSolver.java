@@ -30,6 +30,11 @@ import java.util.Scanner;
 public class JumbleSolver {
 	/**
 	 * Main method of the program. Exec starts here.
+	 * No arguments starts an interactive session in
+	 * the shell.  Arguments cause the program to 
+	 * behave as a command line utility like "cat" 
+	 * or "ls" where the arguments are the strings
+	 * to be unjumbled.
 	 */
 	public static void main(String[] args) {
 		JumbleSolver js = new JumbleSolver();
@@ -189,6 +194,10 @@ public class JumbleSolver {
 			hashes.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (Exception e){
+			// File Format is probably wrong
+			e.printStackTrace();
+			System.out.print("Who took my hashfile?") ;
 		}
 		// Get rid of that last comma
 		// Just to be a little cleaner
