@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Scanner;
 
 /**
@@ -37,22 +38,26 @@ public class JumbleSolver {
 		}
 		else { // else process each argument
 			for(String argument: args){
-				long hash = js.calcHash(argument);
-				if(hash != -1){
+				BigInteger hash = js.calcHash(argument);
+				if(hash.compareTo(negativeOne) != 0){
 					StringBuffer results = js.getHashDivisbleWords(hash) ;
 					System.out.println(argument.toUpperCase()+": "+results.toString()) ;
 				} else  {
-					System.out.println(argument.toUpperCase()+" IS INVALID. " +
-							"PLEASE USE ONLY ENGLISH LETTERS.") ;
+					System.out.println(argument.toUpperCase()+invalidInputError) ;
 				}
 			}
 		}
 	}
 
 	private BufferedWriter hashFile;
-	private long[] primes = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
-			43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101 };
+	private BigInteger[] primes = { BigInteger.valueOf(2), BigInteger.valueOf(3), BigInteger.valueOf(5), 
+			BigInteger.valueOf(7), BigInteger.valueOf(11), BigInteger.valueOf(13), BigInteger.valueOf(17), BigInteger.valueOf(19), 
+			BigInteger.valueOf(23), BigInteger.valueOf(29), BigInteger.valueOf(31), BigInteger.valueOf(37), BigInteger.valueOf(41),
+			BigInteger.valueOf(43), BigInteger.valueOf(47), BigInteger.valueOf(53), BigInteger.valueOf(59), 
+			BigInteger.valueOf(61), BigInteger.valueOf(67), BigInteger.valueOf(71), BigInteger.valueOf(73), 
+			BigInteger.valueOf(79), BigInteger.valueOf(83), BigInteger.valueOf(89), BigInteger.valueOf(97), BigInteger.valueOf(101) };
 	
+	private static BigInteger negativeOne = BigInteger.valueOf(-1);
 	private static final String emptyToExit = "TYPE EMPTY INPUT TO EXIT." ;
 	private static final String welcome= "GREETINGS PROFESSOR FALKEN. SHALL WE PLAY A GAME?" +
 			"\nTYPE A STRING TO CONTINUE: " ;
@@ -60,6 +65,7 @@ public class JumbleSolver {
 	private static final String bye = "GOODBYE." ;
 	private static final String hashFileName = "wordsWithHashes.txt" ;
 	private static final String wordsDirectory = "words/" ;
+	private static final String invalidInputError = " IS INVALID. PLEASE USE ONLY ENGLISH LETTERS." ;
 	
 	/**
 	 * Constructor. Creates hashfile.
@@ -104,14 +110,14 @@ public class JumbleSolver {
 		StringBuffer hashBuffer = new StringBuffer();
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			for (String line; (line = br.readLine()) != null;) {
-				long hash = calcHash(line);
+				BigInteger hash = calcHash(line);
 				// If word read is a contraction or
 				// is invalid, ignore it.
-				if (hash == -1)
+				if (hash.compareTo(negativeOne) == 0)
 					continue;
 				// buffer into stringbuffer for
 				// performance
-				hashBuffer.append(line + "," + hash + "\n");
+				hashBuffer.append(line + "," + hash.toString() + "\n");
 			}
 			// write it out only once per file.
 			// for performance.
@@ -135,14 +141,13 @@ public class JumbleSolver {
 		System.out.println(emptyToExit) ;
 		System.out.print(welcome);
 		while ((inputString = inputScanner.nextLine()) != null) {
-			long hash = calcHash(inputString);
+			BigInteger hash = calcHash(inputString);
 			// empty input ends program
-			if (hash == 1)
+			if (hash.compareTo(BigInteger.ONE) == 0)
 				break;
 			
-			if(hash == -1) {
-				System.out.println(inputString.toUpperCase()+" IS INVALID. " +
-						"PLEASE USE ONLY ENGLISH LETTERS.") ;
+			if(hash.compareTo(negativeOne) == 0) {
+				System.out.println(inputString.toUpperCase()+invalidInputError) ;
 			} else {
 				StringBuffer buffer = getHashDivisbleWords(hash);
 				System.out.print(buffer.toString() + "\n");
@@ -163,7 +168,7 @@ public class JumbleSolver {
 	 * @param jumbledStringHash Hash of jumbled string
 	 * @return StringBuffer comma separated list of words  
 	 */
-	public StringBuffer getHashDivisbleWords(long jumbledStringHash) {
+	public StringBuffer getHashDivisbleWords(BigInteger jumbledStringHash) {
 		String wordcommahash;
 		StringBuffer buffer = new StringBuffer();
 		// open a read stream to our hash file.
@@ -174,10 +179,10 @@ public class JumbleSolver {
 				String[] wordhashCouple = wordcommahash.split(",");
 				if(wordhashCouple[0].length() < 2 && !wordhashCouple[0].equals("a"))
 					continue ;
-				long wordHash = Long.parseLong(wordhashCouple[1]);
+				BigInteger wordHash = new BigInteger(wordhashCouple[1]);
 				// If divisible, then the word can be made 
 				// with input letters
-				if (jumbledStringHash % wordHash == 0)
+				if (jumbledStringHash.mod(wordHash).compareTo(BigInteger.ZERO) == 0)
 					buffer.append(wordhashCouple[0]+",");
 			}
 			hashes.close();
@@ -203,28 +208,28 @@ public class JumbleSolver {
 	 * @param line String to be hashed
 	 * @return the hash
 	 */
-	public long calcHash(String line) {
+	public BigInteger calcHash(String line) {
 		if (line == null){
-			return -1;
+			return negativeOne ;
 		}
 		
-		long hash = 1;
+		BigInteger hash = BigInteger.valueOf(1) ;
 		line = line.toLowerCase(); // For comparision simplicity
 		for (int i = 0; i < line.length(); i++) {
 			char character = line.charAt(i);
 			// ignore possesives
 			if (character == '\'')
-				return -1;
+				return negativeOne;
 
 			int letter = character - 'a';
 			// english words may only have the 26 
 			// letters in the alphabet.  
 			if (letter < 0 || letter > 25)
-				return -1;
+				return negativeOne;
 			// Hyphenated words are apparently
 			// actually spelled in dictionaries without the
 			// hyphen so we don't need to worry about that
-			hash = hash * primes[letter];
+			hash = hash.multiply(primes[letter]) ;
 		}
 		return hash;
 	}
