@@ -23,8 +23,6 @@ length of dictionary.
 
 I used SCOWL word lists which can be found at http://wordlist.aspell.net/.  They are a great list of words.  My only gripe is that
 they include a lot of very strange short words even in the recommended 60 and below lists (i.e. "gs" in the 40 list). 
-Perhaps, I'll return to this some day and filter some of those words but I've already spent 4 hours on this and it was only supposed
-to be a quick coding challenge.  I should really get back to writing malloc()/free() for CS241.
 
 Anyway, you're welcome world, you are now unstoppable at Words With Friends/Scrabble/most word games. 
 
