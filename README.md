@@ -1,4 +1,4 @@
-WUJumblr
+WordUnJumblr
 ========
 
 A word jumble solver.  Takes a series of letters as an input and returns a list of words that could be made 
